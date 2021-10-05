@@ -24,13 +24,32 @@ exports.htmlPlugin = function () {
     entryHtml.forEach((filePath) => {
         var entryPath = path.dirname(filePath)
         var filename = entryPath.substring(entryPath.lastIndexOf('\/') + 1)
+
         let conf = {
             template: filePath,
             filename: filename + `/index.html`,
+            templateParameters(compilation, assets, options) {
+                return {
+                    compilation: compilation,
+                    webpack: compilation.getStats().toJson(),
+                    webpackConfig: compilation.options,
+                    htmlWebpackPlugin: {
+                        files: assets,
+                        options: options,
+                    },
+                    process,
+                };
+            },
+            minify: {
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true
+            },
             chunks: ['manifest', 'vendor', filename],
             inject: true,
             nodeModules: path.resolve(__dirname, '../node_modules')
         }
+        
         if (process.env.NODE_ENV === 'production') {
             let productionConfig = {
                 minify: {

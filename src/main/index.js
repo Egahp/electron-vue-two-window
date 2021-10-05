@@ -54,6 +54,8 @@ function MainWindow_Creat() {
         webPreferences: {
             devTools: true,
             webSecurity: true,
+            nodeIntegration: true,
+            enableRemoteModule: true,
         }
     });
 

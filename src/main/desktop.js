@@ -49,6 +49,8 @@ function DesktopWindow_Creat(displayID) {
         webPreferences: {
             devTools: false,
             webSecurity: true,
+            nodeIntegration: true,
+            enableRemoteModule: true,
         }
     });
 
